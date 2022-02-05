@@ -35,13 +35,20 @@ class CircularAvatar extends StatefulWidget {
   /// Widget displayed while the target [imageUrl] failed loading, works only if [cacheImage] is true.
   final LoadingErrorWidgetBuilder? errorWidget;
 
+  /// Widget displayed while the target [imageUrl] is loading, works only if [cacheImage] is true.
+  final ProgressIndicatorBuilder? progressIndicatorBuilder;
+
   /// `TextStyle` for the `text` to be displayed.
   final TextStyle? textStyle;
+
+  /// Cache the image against [imageUrl] in app memory if set true. it is true by default.
+  final bool cacheImage;
 
   const CircularAvatar({
     Key? key,
     this.urlAvatar = "",
     this.text = "T",
+    this.cacheImage = true,
     this.backgroundColor,
     this.radius = 50.0,
     this.height = 45,
@@ -50,6 +57,7 @@ class CircularAvatar extends StatefulWidget {
     this.borderColor = Colors.white,
     this.errorWidget,
     this.textStyle,
+    this.progressIndicatorBuilder,
   }) : super(key: key);
 
   @override
@@ -64,6 +72,18 @@ class _CircularAvatarState extends State<CircularAvatar> {
 
   @override
   Widget build(BuildContext context) {
+    Color? backgroundColor = Colors.red;
+
+    // double contrast = ContrastHelper.contrast([
+    //   backgroundColor!.red,
+    //   backgroundColor!.green,
+    //   backgroundColor!.blue,
+    // ], [
+    //   255,
+    //   255,
+    //   255
+    // ] /** white text */);
+
     return Container(
       alignment: Alignment.center,
       height: widget.height,
@@ -78,19 +98,29 @@ class _CircularAvatarState extends State<CircularAvatar> {
       ),
       child: Center(
           child: widget.urlAvatar.isNotEmpty
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(40),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    height: widget.height,
-                    width: widget.width,
-                    imageUrl: widget.urlAvatar,
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
-                    errorWidget: widget.errorWidget ??
-                        (context, url, error) => const Icon(Icons.error),
-                  ),
-                )
+              ? (widget.cacheImage
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(40),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        height: widget.height,
+                        width: widget.width,
+                        imageUrl: widget.urlAvatar,
+                        progressIndicatorBuilder:
+                            widget.progressIndicatorBuilder,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: widget.errorWidget ??
+                            (context, url, error) => const Icon(Icons.error),
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(widget.radius),
+                      child: Image.network(
+                        widget.urlAvatar,
+                        fit: BoxFit.cover,
+                      ),
+                    ))
               : Text(
                   widget.text[0].toUpperCase(),
                   style: widget.textStyle?.copyWith(
