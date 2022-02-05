@@ -21,6 +21,14 @@ class CircularAvatar extends StatefulWidget {
   /// default value is 0.0
   final double radius;
 
+  /// sets the borderWidth of the circile,
+  /// default value is 0.0
+  final double borderWidth;
+
+  /// The color with which to fill the border of the circle.
+  /// default value [Colors.white]
+  final Color borderColor;
+
   const CircularAvatar({
     Key? key,
     required this.urlAvatar,
@@ -28,6 +36,8 @@ class CircularAvatar extends StatefulWidget {
     this.radius = 50.0,
     this.height = 45,
     this.width = 45,
+    this.borderWidth = 0.0,
+    this.borderColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -43,13 +53,18 @@ class _CircularAvatarState extends State<CircularAvatar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.center,
-        height: widget.height,
-        width: widget.width,
-        decoration: BoxDecoration(
-          color: Colors.lightBlue,
-          borderRadius: BorderRadius.circular(widget.radius),
+      alignment: Alignment.center,
+      height: widget.height,
+      width: widget.width,
+      decoration: BoxDecoration(
+        color: Colors.lightBlue,
+        borderRadius: BorderRadius.circular(widget.radius),
+        border: Border.all(
+          width: widget.borderWidth,
+          color: widget.borderColor,
         ),
+      ),
+      child: Center(
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40),
           child: CachedNetworkImage(
@@ -60,6 +75,8 @@ class _CircularAvatarState extends State<CircularAvatar> {
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
