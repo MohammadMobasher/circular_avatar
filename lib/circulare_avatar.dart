@@ -17,12 +17,17 @@ class CircularAvatar extends StatefulWidget {
   /// If not specified, a random color will be generated.
   final Color? backgroundColor;
 
+  /// sets radius of the avatar circle, [borderWidth] is also included in this radius.
+  /// default value is 0.0
+  final double radius;
+
   const CircularAvatar({
     Key? key,
     required this.urlAvatar,
+    this.backgroundColor,
+    this.radius = 50.0,
     this.height = 45,
     this.width = 45,
-    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -43,7 +48,7 @@ class _CircularAvatarState extends State<CircularAvatar> {
         width: widget.width,
         decoration: BoxDecoration(
           color: Colors.lightBlue,
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(widget.radius),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(40),
