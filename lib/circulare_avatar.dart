@@ -29,6 +29,9 @@ class CircularAvatar extends StatefulWidget {
   /// default value [Colors.white]
   final Color borderColor;
 
+  /// Widget displayed while the target [imageUrl] failed loading, works only if [cacheImage] is true.
+  final LoadingErrorWidgetBuilder? errorWidget;
+
   const CircularAvatar({
     Key? key,
     required this.urlAvatar,
@@ -38,6 +41,7 @@ class CircularAvatar extends StatefulWidget {
     this.width = 45,
     this.borderWidth = 0.0,
     this.borderColor = Colors.white,
+    this.errorWidget,
   }) : super(key: key);
 
   @override
@@ -73,7 +77,8 @@ class _CircularAvatarState extends State<CircularAvatar> {
             width: widget.width,
             imageUrl: widget.urlAvatar,
             placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+            errorWidget: widget.errorWidget ??
+                (context, url, error) => const Icon(Icons.error),
           ),
         ),
       ),
