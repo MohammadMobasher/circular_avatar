@@ -7,6 +7,9 @@ class CircularAvatar extends StatefulWidget {
   /// The text supplied. Only first character will be displayed.
   final String urlAvatar;
 
+  /// The text supplied. Only first character will be displayed.
+  final String text;
+
   /// Height of the [TextDrawable] widget.
   final double height;
 
@@ -32,9 +35,13 @@ class CircularAvatar extends StatefulWidget {
   /// Widget displayed while the target [imageUrl] failed loading, works only if [cacheImage] is true.
   final LoadingErrorWidgetBuilder? errorWidget;
 
+  /// `TextStyle` for the `text` to be displayed.
+  final TextStyle? textStyle;
+
   const CircularAvatar({
     Key? key,
-    required this.urlAvatar,
+    this.urlAvatar = "",
+    this.text = "T",
     this.backgroundColor,
     this.radius = 50.0,
     this.height = 45,
@@ -42,6 +49,7 @@ class CircularAvatar extends StatefulWidget {
     this.borderWidth = 0.0,
     this.borderColor = Colors.white,
     this.errorWidget,
+    this.textStyle,
   }) : super(key: key);
 
   @override
@@ -69,19 +77,30 @@ class _CircularAvatarState extends State<CircularAvatar> {
         ),
       ),
       child: Center(
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(40),
-          child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            height: widget.height,
-            width: widget.width,
-            imageUrl: widget.urlAvatar,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-            errorWidget: widget.errorWidget ??
-                (context, url, error) => const Icon(Icons.error),
-          ),
-        ),
-      ),
+          child: widget.urlAvatar.isNotEmpty
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    height: widget.height,
+                    width: widget.width,
+                    imageUrl: widget.urlAvatar,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: widget.errorWidget ??
+                        (context, url, error) => const Icon(Icons.error),
+                  ),
+                )
+              : Text(
+                  widget.text[0].toUpperCase(),
+                  style: widget.textStyle?.copyWith(
+                          // color: contrast > 1.8 ? Colors.white : Colors.black,
+                          ) ??
+                      const TextStyle(
+                        fontSize: 18,
+                        // color: contrast > 1.8 ? Colors.white : Colors.black,
+                      ),
+                )),
     );
   }
 }
