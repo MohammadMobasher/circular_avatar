@@ -79,16 +79,6 @@ class _CircularAvatarState extends State<CircularAvatar> {
   Widget build(BuildContext context) {
     Color? backgroundColor = Colors.red;
 
-    // double contrast = ContrastHelper.contrast([
-    //   backgroundColor!.red,
-    //   backgroundColor!.green,
-    //   backgroundColor!.blue,
-    // ], [
-    //   255,
-    //   255,
-    //   255
-    // ] /** white text */);
-
     return Container(
       alignment: Alignment.center,
       height: widget.height,
@@ -128,12 +118,9 @@ class _CircularAvatarState extends State<CircularAvatar> {
                     ))
               : Text(
                   widget.text.isEmpty ? "" : widget.text[0].toUpperCase(),
-                  style: widget.textStyle?.copyWith(
-                          // color: contrast > 1.8 ? Colors.white : Colors.black,
-                          ) ??
+                  style: widget.textStyle?.copyWith() ??
                       const TextStyle(
                         fontSize: 18,
-                        // color: contrast > 1.8 ? Colors.white : Colors.black,
                       ),
                 )),
     );
