@@ -16,6 +16,8 @@ class CircularAvatar extends StatefulWidget {
   /// Width of the [TextDrawable] widget.
   final double width;
 
+  /// How to inscribe the image into the space allocated during layout.
+  /// Set the [BoxFit] value as you want.
   final BoxFit imageFit;
 
   /// Background color to for the widget.
