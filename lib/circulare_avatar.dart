@@ -51,7 +51,7 @@ class CircularAvatar extends StatefulWidget {
   const CircularAvatar({
     Key? key,
     this.urlAvatar = "",
-    this.text = "T",
+    this.text = "",
     this.cacheImage = true,
     this.backgroundColor,
     this.radius = 50.0,
@@ -127,7 +127,7 @@ class _CircularAvatarState extends State<CircularAvatar> {
                       ),
                     ))
               : Text(
-                  widget.text[0].toUpperCase(),
+                  widget.text.isEmpty ? "" : widget.text[0].toUpperCase(),
                   style: widget.textStyle?.copyWith(
                           // color: contrast > 1.8 ? Colors.white : Colors.black,
                           ) ??
