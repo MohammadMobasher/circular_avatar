@@ -16,6 +16,8 @@ class CircularAvatar extends StatefulWidget {
   /// Width of the [TextDrawable] widget.
   final double width;
 
+  final BoxFit boxFit;
+
   /// Background color to for the widget.
   /// If not specified, a random color will be generated.
   final Color? backgroundColor;
@@ -58,6 +60,7 @@ class CircularAvatar extends StatefulWidget {
     this.errorWidget,
     this.textStyle,
     this.progressIndicatorBuilder,
+    this.boxFit = BoxFit.cover,
   }) : super(key: key);
 
   @override
@@ -102,7 +105,7 @@ class _CircularAvatarState extends State<CircularAvatar> {
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(40),
                       child: CachedNetworkImage(
-                        fit: BoxFit.cover,
+                        fit: widget.boxFit,
                         height: widget.height,
                         width: widget.width,
                         imageUrl: widget.urlAvatar,
@@ -118,7 +121,7 @@ class _CircularAvatarState extends State<CircularAvatar> {
                       borderRadius: BorderRadius.circular(widget.radius),
                       child: Image.network(
                         widget.urlAvatar,
-                        fit: BoxFit.cover,
+                        fit: widget.boxFit,
                       ),
                     ))
               : Text(
