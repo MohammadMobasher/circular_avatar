@@ -77,7 +77,7 @@ class _CircularAvatarState extends State<CircularAvatar> {
 
   @override
   Widget build(BuildContext context) {
-    Color? backgroundColor = Colors.red;
+    // Color? backgroundColor = Colors.red;
 
     return Container(
       alignment: Alignment.center,
